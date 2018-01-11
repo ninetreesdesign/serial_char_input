@@ -5,12 +5,15 @@ int char_in = 0;   // for incoming serial data
 int i = 0;
 
 void setup() {
-	Serial.begin(57600);     // init the Serial stream
-	while (!Serial && (millis() < 5000)) {    // continues if the monitor window is never opened
+	Serial.begin(9600);     // opens serial port, sets data rate to 9600 bps
+
+	// t, t1 to measure comm initialization time...
+	int t = millis();
+	while (!Serial && (millis() - t < 8000)) {    // continues if the monitor window is never opened
 		; // wait for serial port to connect. Needed for Leonardo & Teensyduino 3
 	}
-	Serial.print("Port connectd.\n\n");
-	delay(500);
+	delay(300);
+	Serial.print("Port connectd: " + String(millis() - t) + " ms\n\n");
 }
 
 
@@ -27,7 +30,7 @@ void loop() {
         // or use 
         Serial.print("    ");
         Serial.write(char_in); Serial.println();
-	i++;
+		i++;
 	}
 }
 
